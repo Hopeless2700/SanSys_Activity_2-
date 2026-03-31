@@ -16,52 +16,52 @@ const DashboardOverview = ({ sensors, loading }) => {
       : 0;
 
   const StatCard = ({ title, value, icon: Icon, bgColor, textColor }) => (
-    <div className={`${bgColor} rounded-lg shadow-md p-6 text-white`}>
+    <div className={`${bgColor} rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-300`}>
       <div className="flex items-center justify-between">
         <div>
           <p className="text-sm font-medium opacity-90">{title}</p>
-          <p className="text-3xl font-bold mt-2">{loading ? "..." : value}</p>
+          <p className="text-4xl font-bold mt-2">{loading ? "..." : value}</p>
         </div>
-        <Icon className="w-12 h-12 opacity-30" />
+        <Icon className="w-14 h-14 opacity-25" />
       </div>
     </div>
   );
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 mb-8">
       <StatCard
         title="Total Sensors"
         value={sensors.length}
         icon={Activity}
-        bgColor="bg-blue-500"
+        bgColor="bg-gradient-to-br from-blue-500 to-blue-600"
         textColor="text-blue-600"
       />
       <StatCard
         title="Active Sensors"
         value={activeSensors}
         icon={Activity}
-        bgColor="bg-green-500"
+        bgColor="bg-gradient-to-br from-emerald-500 to-emerald-600"
         textColor="text-green-600"
       />
       <StatCard
         title="Inactive Sensors"
         value={inactiveSensors}
         icon={Activity}
-        bgColor="bg-gray-500"
+        bgColor="bg-gradient-to-br from-slate-500 to-slate-600"
         textColor="text-gray-600"
       />
       <StatCard
         title="Avg Temperature"
         value={`${avgTemperature}°C`}
         icon={Thermometer}
-        bgColor="bg-red-500"
+        bgColor="bg-gradient-to-br from-orange-500 to-red-600"
         textColor="text-red-600"
       />
       <StatCard
         title="Avg Humidity"
         value={`${avgHumidity}%`}
         icon={Droplets}
-        bgColor="bg-cyan-500"
+        bgColor="bg-gradient-to-br from-cyan-500 to-blue-600"
         textColor="text-cyan-600"
       />
     </div>

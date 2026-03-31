@@ -41,19 +41,19 @@ const SensorTable = ({ sensors, loading, onRowClick }) => {
   );
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
+    <div className="bg-white rounded-xl shadow-xl p-6 border-t-4 border-blue-500">
       {/* Header with Filters */}
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">Sensor Data</h2>
+        <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-4">Sensor Data</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Search Input */}
           <div className="relative">
-            <Search className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+            <Search className="absolute left-3 top-3.5 w-5 h-5 text-blue-400" />
             <input
               type="text"
               placeholder="Search by location or sensor ID..."
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-10 pr-4 py-2.5 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-gray-50"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -63,7 +63,7 @@ const SensorTable = ({ sensors, loading, onRowClick }) => {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-4 py-2.5 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-gray-50"
           >
             <option value="All">All Status</option>
             <option value="Active">Active Only</option>
@@ -76,15 +76,15 @@ const SensorTable = ({ sensors, loading, onRowClick }) => {
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="bg-gray-50 border-b-2 border-gray-200">
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+            <tr className="bg-gradient-to-r from-blue-50 to-cyan-50 border-b-2 border-blue-200">
+              <th className="px-6 py-3 text-left text-sm font-bold text-blue-700">
                 Sensor ID
               </th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+              <th className="px-6 py-3 text-left text-sm font-bold text-blue-700">
                 Location
               </th>
               <th
-                className="px-6 py-3 text-left text-sm font-semibold text-gray-700 cursor-pointer hover:bg-gray-100"
+                className="px-6 py-3 text-left text-sm font-bold text-blue-700 cursor-pointer hover:bg-blue-100 transition-colors"
                 onClick={() => handleSort("temperature")}
               >
                 <div className="flex items-center gap-2">
@@ -93,7 +93,7 @@ const SensorTable = ({ sensors, loading, onRowClick }) => {
                 </div>
               </th>
               <th
-                className="px-6 py-3 text-left text-sm font-semibold text-gray-700 cursor-pointer hover:bg-gray-100"
+                className="px-6 py-3 text-left text-sm font-bold text-blue-700 cursor-pointer hover:bg-blue-100 transition-colors"
                 onClick={() => handleSort("humidity")}
               >
                 <div className="flex items-center gap-2">
@@ -102,7 +102,7 @@ const SensorTable = ({ sensors, loading, onRowClick }) => {
                 </div>
               </th>
               <th
-                className="px-6 py-3 text-left text-sm font-semibold text-gray-700 cursor-pointer hover:bg-gray-100"
+                className="px-6 py-3 text-left text-sm font-bold text-blue-700 cursor-pointer hover:bg-blue-100 transition-colors"
                 onClick={() => handleSort("timestamp")}
               >
                 <div className="flex items-center gap-2">
@@ -110,24 +110,21 @@ const SensorTable = ({ sensors, loading, onRowClick }) => {
                   <SortIcon column="timestamp" />
                 </div>
               </th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+              <th className="px-6 py-3 text-left text-sm font-bold text-blue-700">
                 Status
-              </th>
-              <th className="px-6 py-3 text-center text-sm font-semibold text-gray-700">
-                Action
               </th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="7" className="px-6 py-8 text-center text-gray-500">
+                <td colSpan="6" className="px-6 py-8 text-center text-gray-500">
                   Loading sensors...
                 </td>
               </tr>
             ) : processedSensors.length === 0 ? (
               <tr>
-                <td colSpan="7" className="px-6 py-8 text-center text-gray-500">
+                <td colSpan="6" className="px-6 py-8 text-center text-gray-500">
                   No sensors found
                 </td>
               </tr>
@@ -135,7 +132,7 @@ const SensorTable = ({ sensors, loading, onRowClick }) => {
               processedSensors.map((sensor) => (
                 <tr
                   key={sensor.id}
-                  className="border-b border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer"
+                  className="border-b border-gray-100 hover:bg-blue-50 transition-all cursor-pointer"
                   onClick={() => onRowClick(sensor)}
                 >
                   <td className="px-6 py-4 text-sm font-medium text-gray-900 font-mono">
@@ -159,11 +156,6 @@ const SensorTable = ({ sensors, loading, onRowClick }) => {
                   </td>
                   <td className="px-6 py-4 text-sm">
                     <StatusBadge status={sensor.status} />
-                  </td>
-                  <td className="px-6 py-4 text-center">
-                    <button className="px-4 py-2 bg-blue-500 text-white text-xs font-semibold rounded-lg hover:bg-blue-600 transition-colors">
-                      View Details
-                    </button>
                   </td>
                 </tr>
               ))

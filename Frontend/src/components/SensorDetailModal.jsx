@@ -5,18 +5,18 @@ import { formatTemperature, formatHumidity, formatTimestamp, getStatusColor } fr
 import TrendChart from "./TrendChart";
 
 const SensorDetailModal = ({ sensor, isOpen, onClose }) => {
-  const { detail, history, loading, error } = useSensorDetail(sensor?.id);
+  const { history, loading, error } = useSensorDetail(sensor?.id);
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+      <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6 flex items-center justify-between">
+        <div className="sticky top-0 bg-gradient-to-r from-blue-500 via-blue-600 to-cyan-500 text-white p-6 flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-bold">Sensor Details</h2>
-            <p className="text-blue-100 text-sm">{sensor?.id}</p>
+            <p className="text-blue-100 text-sm mt-1 font-mono">{sensor?.id}</p>
           </div>
           <button
             onClick={onClose}
@@ -43,22 +43,22 @@ const SensorDetailModal = ({ sensor, isOpen, onClose }) => {
             <>
               {/* Sensor Information */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <h3 className="text-sm font-semibold text-gray-600 mb-4">Sensor Information</h3>
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-5 border-l-4 border-blue-500">
+                  <h3 className="text-sm font-bold text-blue-900 mb-4">Sensor Information</h3>
                   <dl className="space-y-3">
                     <div>
-                      <dt className="text-xs font-medium text-gray-500">Sensor ID</dt>
-                      <dd className="text-sm font-mono text-gray-900 mt-1">{sensor?.id}</dd>
+                      <dt className="text-xs font-semibold text-blue-700">Sensor ID</dt>
+                      <dd className="text-sm font-mono text-blue-900 mt-1">{sensor?.id}</dd>
                     </div>
                     <div>
-                      <dt className="text-xs font-medium text-gray-500">Location</dt>
-                      <dd className="text-sm text-gray-900 mt-1">{sensor?.location}</dd>
+                      <dt className="text-xs font-semibold text-blue-700">Location</dt>
+                      <dd className="text-sm text-blue-900 mt-1">{sensor?.location}</dd>
                     </div>
                     <div>
-                      <dt className="text-xs font-medium text-gray-500">Status</dt>
+                      <dt className="text-xs font-semibold text-blue-700">Status</dt>
                       <dd className="mt-1">
                         <span
-                          className="px-3 py-1 rounded-full text-xs font-semibold text-white"
+                          className="px-3 py-1.5 rounded-full text-xs font-bold text-white"
                           style={{ backgroundColor: getStatusColor(sensor?.status) }}
                         >
                           {sensor?.status}
@@ -69,24 +69,24 @@ const SensorDetailModal = ({ sensor, isOpen, onClose }) => {
                 </div>
 
                 {/* Latest Readings */}
-                <div className="bg-blue-50 rounded-lg p-4">
-                  <h3 className="text-sm font-semibold text-gray-600 mb-4">Latest Readings</h3>
+                <div className="bg-gradient-to-br from-cyan-50 to-blue-100 rounded-xl p-5 border-l-4 border-cyan-500">
+                  <h3 className="text-sm font-bold text-cyan-900 mb-4">Latest Readings</h3>
                   <dl className="space-y-3">
                     <div>
-                      <dt className="text-xs font-medium text-gray-500">Temperature</dt>
-                      <dd className="text-sm font-semibold text-red-600 mt-1">
+                      <dt className="text-xs font-semibold text-cyan-700">Temperature</dt>
+                      <dd className="text-sm font-bold text-orange-600 mt-1">
                         {formatTemperature(sensor?.temperature)}
                       </dd>
                     </div>
                     <div>
-                      <dt className="text-xs font-medium text-gray-500">Humidity</dt>
-                      <dd className="text-sm font-semibold text-blue-600 mt-1">
+                      <dt className="text-xs font-semibold text-cyan-700">Humidity</dt>
+                      <dd className="text-sm font-bold text-blue-600 mt-1">
                         {formatHumidity(sensor?.humidity)}
                       </dd>
                     </div>
                     <div>
-                      <dt className="text-xs font-medium text-gray-500">Last Updated</dt>
-                      <dd className="text-sm text-gray-900 mt-1">
+                      <dt className="text-xs font-semibold text-cyan-700">Last Updated</dt>
+                      <dd className="text-sm text-cyan-900 mt-1">
                         {formatTimestamp(sensor?.lastUpdated || sensor?.timestamp)}
                       </dd>
                     </div>
@@ -103,19 +103,19 @@ const SensorDetailModal = ({ sensor, isOpen, onClose }) => {
 
               {/* Historical Data Table */}
               {history && history.length > 0 && (
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-600 mb-3">Recent Readings</h3>
-                  <div className="overflow-x-auto">
+                <div className="border-t-2 border-gray-200 pt-6">
+                  <h3 className="text-sm font-bold text-gray-700 mb-4">Recent Readings</h3>
+                  <div className="overflow-x-auto rounded-xl border-2 border-gray-200">
                     <table className="w-full text-sm">
                       <thead>
-                        <tr className="bg-gray-100 border-b border-gray-200">
-                          <th className="px-4 py-2 text-left font-semibold text-gray-700">
+                        <tr className="bg-gradient-to-r from-blue-50 to-cyan-50 border-b-2 border-blue-200">
+                          <th className="px-4 py-3 text-left font-bold text-blue-700">
                             Timestamp
                           </th>
-                          <th className="px-4 py-2 text-left font-semibold text-gray-700">
+                          <th className="px-4 py-3 text-left font-bold text-blue-700">
                             Temperature
                           </th>
-                          <th className="px-4 py-2 text-left font-semibold text-gray-700">
+                          <th className="px-4 py-3 text-left font-bold text-blue-700">
                             Humidity
                           </th>
                         </tr>
@@ -124,15 +124,15 @@ const SensorDetailModal = ({ sensor, isOpen, onClose }) => {
                         {history.slice(0, 10).map((reading, idx) => (
                           <tr
                             key={idx}
-                            className="border-b border-gray-100 hover:bg-gray-50"
+                            className="border-b border-gray-100 hover:bg-blue-50 transition-colors"
                           >
-                            <td className="px-4 py-2 text-gray-900">
+                            <td className="px-4 py-3 text-gray-700">
                               {formatTimestamp(reading.timestamp)}
                             </td>
-                            <td className="px-4 py-2 text-red-600 font-semibold">
+                            <td className="px-4 py-3 text-orange-600 font-semibold">
                               {formatTemperature(reading.temperature)}
                             </td>
-                            <td className="px-4 py-2 text-blue-600 font-semibold">
+                            <td className="px-4 py-3 text-blue-600 font-semibold">
                               {formatHumidity(reading.humidity)}
                             </td>
                           </tr>
@@ -147,10 +147,10 @@ const SensorDetailModal = ({ sensor, isOpen, onClose }) => {
         </div>
 
         {/* Footer */}
-        <div className="bg-gray-50 p-4 border-t border-gray-200 flex justify-end">
+        <div className="bg-gradient-to-r from-gray-50 to-blue-50 p-4 border-t-2 border-gray-200 flex justify-end">
           <button
             onClick={onClose}
-            className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-colors"
+            className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold rounded-xl hover:from-blue-600 hover:to-cyan-600 transition-all shadow-md"
           >
             Close
           </button>
