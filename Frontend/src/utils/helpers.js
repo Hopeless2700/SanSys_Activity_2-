@@ -51,6 +51,25 @@ export const formatTimestamp = (timestamp) => {
 };
 
 /**
+ * Format timestamp to exact local date and time
+ */
+export const formatDateTimeExact = (timestamp) => {
+  if (!timestamp) return "No data";
+
+  const date = new Date(timestamp);
+  if (Number.isNaN(date.getTime())) return "Invalid date";
+
+  return date.toLocaleString([], {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+};
+
+/**
  * Calculate average of array
  */
 export const calculateAverage = (values) => {

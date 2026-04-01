@@ -1,0 +1,29 @@
+CREATE DATABASE IF NOT EXISTS smart_farm CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE smart_farm;
+
+CREATE TABLE IF NOT EXISTS sensors (
+  id VARCHAR(64) PRIMARY KEY,
+  location VARCHAR(120) NOT NULL,
+  last_temperature DECIMAL(5,2) NOT NULL,
+  last_humidity DECIMAL(5,2) NOT NULL,
+  last_ldr_raw INT NOT NULL,
+  last_daytime TINYINT(1) NOT NULL DEFAULT 1,
+  last_updated DATETIME NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS sensor_readings (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  sensor_id VARCHAR(64) NOT NULL,
+  location VARCHAR(120) NOT NULL,
+  temperature DECIMAL(5,2) NOT NULL,
+  humidity DECIMAL(5,2) NOT NULL,
+  ldr_raw INT NOT NULL,
+  daytime TINYINT(1) NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_sensor_created (sensor_id, created_at),
+  CONSTRAINT fk_sensor_readings_sensor FOREIGN KEY (sensor_id) REFERENCES sensors(id)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT
+);

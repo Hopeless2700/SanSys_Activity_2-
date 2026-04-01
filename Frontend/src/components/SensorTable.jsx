@@ -5,15 +5,24 @@ import { formatTemperature, formatHumidity, formatTimestamp, filterSensors, sort
 const SensorTable = ({ sensors, loading, onRowClick }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
+  const [sensorFilter, setSensorFilter] = useState("All");
   const [sortBy, setSortBy] = useState("timestamp");
   const [sortOrder, setSortOrder] = useState("desc");
+
+  const sensorOptions = useMemo(() => {
+    const ids = [...new Set((sensors || []).map((sensor) => sensor.id).filter(Boolean))];
+    return ids.sort((a, b) => a.localeCompare(b));
+  }, [sensors]);
 
   // Filter and sort sensors
   const processedSensors = useMemo(() => {
     let result = filterSensors(sensors, searchTerm, statusFilter);
+    if (sensorFilter !== "All") {
+      result = result.filter((sensor) => sensor.id === sensorFilter);
+    }
     result = sortSensors(result, sortBy, sortOrder);
     return result;
-  }, [sensors, searchTerm, statusFilter, sortBy, sortOrder]);
+  }, [sensors, searchTerm, statusFilter, sensorFilter, sortBy, sortOrder]);
 
   const handleSort = (column) => {
     if (sortBy === column) {
@@ -46,7 +55,7 @@ const SensorTable = ({ sensors, loading, onRowClick }) => {
       <div className="mb-6">
         <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-4">Sensor Data</h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Search Input */}
           <div className="relative">
             <Search className="absolute left-3 top-3.5 w-5 h-5 text-blue-400" />
@@ -68,6 +77,20 @@ const SensorTable = ({ sensors, loading, onRowClick }) => {
             <option value="All">All Status</option>
             <option value="Active">Active Only</option>
             <option value="Inactive">Inactive Only</option>
+          </select>
+
+          {/* Sensor Filter */}
+          <select
+            value={sensorFilter}
+            onChange={(e) => setSensorFilter(e.target.value)}
+            className="px-4 py-2.5 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-gray-50"
+          >
+            <option value="All">All Sensors</option>
+            {sensorOptions.map((sensorId) => (
+              <option key={sensorId} value={sensorId}>
+                {sensorId}
+              </option>
+            ))}
           </select>
         </div>
       </div>
@@ -155,7 +178,19 @@ const SensorTable = ({ sensors, loading, onRowClick }) => {
                     {formatTimestamp(sensor.lastUpdated || sensor.timestamp)}
                   </td>
                   <td className="px-6 py-4 text-sm">
-                    <StatusBadge status={sensor.status} />
+                    <div className="flex items-center gap-2">
+                      <StatusBadge status={sensor.status} />
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onRowClick(sensor);
+                        }}
+                        className="px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700 border border-gray-200 hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-colors"
+                      >
+                        View Logs ({typeof sensor.logs === "number" ? sensor.logs : 0})
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))

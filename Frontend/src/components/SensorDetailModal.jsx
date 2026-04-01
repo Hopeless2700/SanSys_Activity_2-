@@ -1,7 +1,7 @@
 import React from "react";
 import { X, Loader } from "lucide-react";
 import { useSensorDetail } from "../hooks/useSensorDetail";
-import { formatTemperature, formatHumidity, formatTimestamp, getStatusColor } from "../utils/helpers";
+import { formatTemperature, formatHumidity, formatTimestamp, formatDateTimeExact, getStatusColor } from "../utils/helpers";
 import TrendChart from "./TrendChart";
 
 const SensorDetailModal = ({ sensor, isOpen, onClose }) => {
@@ -127,7 +127,7 @@ const SensorDetailModal = ({ sensor, isOpen, onClose }) => {
                             className="border-b border-gray-100 hover:bg-blue-50 transition-colors"
                           >
                             <td className="px-4 py-3 text-gray-700">
-                              {formatTimestamp(reading.timestamp)}
+                              {formatDateTimeExact(reading.timestamp)}
                             </td>
                             <td className="px-4 py-3 text-orange-600 font-semibold">
                               {formatTemperature(reading.temperature)}
