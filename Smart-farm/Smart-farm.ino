@@ -10,10 +10,6 @@
 #include <WiFiClient.h>
 
 // --- CHANGE THESE TWO LINES PER DEVICE ---------------------
-//  NODE_01 = Paranaque_Field
-//  NODE_02 = Makati_Greenhouse
-//  NODE_03 = Pasay_Station
-//  NODE_04 = Taguig_BGC_Farm
 const char* SENSOR_ID = "NODE_03";
 const char* LOCATION  = "Pasay_Station";
 
@@ -22,10 +18,8 @@ const char* WIFI_SSID = "Converge_2.4GHz_gZ2H";
 const char* WIFI_PASS = "qu4pFbHE";
 
 // --- Server config -----------------------------------------
-// Use your PC LAN IP where XAMPP is running
 const char* SERVER_HOST = "192.168.100.8";
 const int   SERVER_PORT = 80;
-// IMPORTANT: include folder name under htdocs
 const char* SERVER_PATH = "/sansys-backend/api/sensor";
 
 // --- Pin definitions ---------------------------------------
@@ -35,7 +29,7 @@ const char* SERVER_PATH = "/sansys-backend/api/sensor";
 #define LED_RED  7
 
 // --- Thresholds & timing -----------------------------------
-const int           LDR_THRESHOLD = 500;
+const int           LDR_THRESHOLD = 300;  // CHANGED from 500 to 300
 const unsigned long SEND_INTERVAL = 5000;
 
 // --- Globals -----------------------------------------------
@@ -78,6 +72,7 @@ void runSensorCycle() {
 
   Serial.println("------------------------------");
   Serial.print("[LDR]  Raw value : "); Serial.println(ldrValue);
+  Serial.print("[LDR]  Threshold : "); Serial.println(LDR_THRESHOLD); // ADDED
   Serial.print("[Edge] Daytime   : "); Serial.println(isDaytime ? "YES - transmitting" : "NO - suppressed");
 
   if (!isDaytime) {
